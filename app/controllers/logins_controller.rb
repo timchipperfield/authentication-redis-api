@@ -4,8 +4,8 @@ class LoginsController < ApplicationController
     return head :unauthorized unless user
 
     payload = { username: register_params[:username] }
-    session = JWTSessions::Session.new(payload: payload)
-    response.set_header("Authorization", session.login)
+    session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
+    response.set_header("Authorization", session.login[:access])
     head :ok
   end
 
