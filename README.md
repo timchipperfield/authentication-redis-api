@@ -10,6 +10,10 @@ Authentication api with create, login and authorization/refresh functionality.
 * clone this repo
 * run `bundle install`
 
+## Tests
+
+Utilizes the RSpec gem. Run `rspec` command to run the test suite.
+
 ## Design Considerations
 
 The api consists of three endpoints:
