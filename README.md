@@ -1,24 +1,23 @@
-# README
+# Redis Authentication API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Overview
 
-Things you may want to cover:
+Authentication api with create, login and authorization/refresh functionality.
 
-* Ruby version
+## Setup
 
-* System dependencies
+* ensure you have Redis installed and running on your machine
+* clone this repo
+* run `bundle install`
 
-* Configuration
+## Design Considerations
 
-* Database creation
+The api consists of three endpoints:
 
-* Database initialization
+1. `post /registations`: allows a user to register and receive a token via a header which can be used to authenticate against. Existing users can't re-register.
+2. `post /logins`: allows an existing user with an expired auth token to login and receive a fresh token upon success.
+3. `post /authorizations`: verifies whether an auth token is valid and refreshes that token on success.
 
-* How to run the test suite
+## Gemfile Considerations
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The package primarily utilized is `jwt_sessions` which handles JSON web token sessions using Redis. Additionaly, 'User' object are stored using Redis rather than a database. The gems `bcrypt` and `strong_password` ensure that passwords are safe and secure.
