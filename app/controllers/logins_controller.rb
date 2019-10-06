@@ -1,4 +1,4 @@
-class LoginController < ApplicationController
+class LoginsController < ApplicationController
   def create
     user = User.authenticate(register_params[:username], register_params[:password])
     return head :unauthorized unless user

@@ -1,11 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "POST /login", type: :request do
-  let(:url) { "/login" }
+RSpec.describe LoginsController, type: :request do
+  let(:url) { "/logins" }
   let(:username) { "timchipperfield" }
-  let(:password) { "secret_password" }
-  before { Redis.new.flushall }
-
+  let(:password) { "4$55secret_passwordo50" }
   let(:params) do
     {
       username: username,
@@ -13,15 +11,17 @@ RSpec.describe "POST /login", type: :request do
     }
   end
 
+  before { Redis.new.flushall }
+
   context "when user exists" do
     before do
-      Redis.new.set(username, password) # creates the user beforehand
+      User.create_new(username, password, password)
       post url, params: params
     end
 
     it "returns successful response with the auth header", :aggregate_failures do
       expect(response.status).to eq(200)
-      expect(response.headers['Authorization']).to be_present
+      expect(response.headers[JWTSessions.access_header]).to be_present
     end
   end
 
@@ -34,9 +34,12 @@ RSpec.describe "POST /login", type: :request do
   end
 
   context "when the user exists but the password is incorrect" do
-    let(:password) { "bad_password" }
+    let(:password) { "4$55secret_passwordo50" + "1" }
 
-    before { post url, params: params }
+    before do
+      User.create_new(username, password, password)
+      post url, params: params
+    end
 
     it 'returns unathorized status' do
       expect(response.status).to eq 401
@@ -44,7 +47,10 @@ RSpec.describe "POST /login", type: :request do
   end
 
   context 'when parameters missing' do
-    before { post url }
+    before do
+      User.create_new(username, password, password)
+      post url
+    end
 
     it 'returns unathorized status' do
       expect(response.status).to eq 401

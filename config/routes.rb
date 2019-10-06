@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
-  resources :login, only: :create
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :logins, only: :create
+  resources :authorizations, only: :create
 end

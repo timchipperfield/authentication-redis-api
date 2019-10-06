@@ -26,7 +26,7 @@ class User
     end
 
     def decrypted_password(password_hash)
-      @descrypted_password ||= Password.new(password_hash)
+      @decrypted_password ||= Password.new(password_hash)
     end
   end
 end
