@@ -1,6 +1,4 @@
 class User
-  class PasswordMismatch < StandardError; end
-
   include BCrypt
 
   def self.authenticate(username, password)
@@ -11,7 +9,7 @@ class User
   end
 
   def self.create_new(username, password, password_confirmation)
-    raise PasswordMismatch unless password == password_confirmation
+    validate_passwords!(password, password_confirmation)
 
     hashed_password = Password.create(password)
     redis.set(username, hashed_password)
@@ -21,6 +19,7 @@ class User
 
   class << self
     include BCrypt
+    include PasswordCheckable
 
     def redis
       @redis ||= Redis.new

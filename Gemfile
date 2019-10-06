@@ -19,6 +19,8 @@ gem 'puma', '~> 3.7'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'strong_password', '~> 0.0.8'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -26,7 +28,7 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'rack-cors'
 
 gem 'redis'
-gem "jwt_sessions"
+gem 'jwt_sessions'
 
 
 group :development, :test do
