@@ -22,6 +22,8 @@ RSpec.describe LoginsController, type: :request do
     it "returns successful response with the auth header", :aggregate_failures do
       expect(response.status).to eq(200)
       expect(response.headers[JWTSessions.access_header]).to be_present
+      expect(JSON.parse(response.body)["username"]).to eq(username)
+      expect(JSON.parse(response.body)["exp"]).to be_a(Integer)
     end
   end
 

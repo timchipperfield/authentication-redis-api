@@ -10,10 +10,16 @@ class RegistrationsController < ApplicationController
     )
     return head :unauthorized unless user
 
-    payload = { username: create_params[:username] }
-    session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
+    expiry_seconds = JWTSessions.access_exp_time
+    payload = { username: create_params[:username], exp: expiry_seconds }
+    session = JWTSessions::Session.new(
+      payload: payload,
+      access_exp: expiry_seconds,
+      refresh_by_access_allowed: true
+    )
     response.set_header("Authorization", session.login[:access])
-    head :ok
+
+    render json: payload, status: :ok
   end
 
   private
