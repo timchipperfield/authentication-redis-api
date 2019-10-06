@@ -10,6 +10,8 @@ class AuthorizationsController < ApplicationController
     render json: user_payload, head: :ok
   end
 
+  private
+
   def user_payload
     claimless_payload.slice("username", "exp")
   end
