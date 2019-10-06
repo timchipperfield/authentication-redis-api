@@ -30,6 +30,7 @@ RSpec.describe LoginsController, type: :request do
 
     it 'returns unathorized status' do
       expect(response.status).to eq 401
+      expect(response.body).to eq("") # not expicit here to avoid hacking
     end
   end
 
@@ -43,6 +44,7 @@ RSpec.describe LoginsController, type: :request do
 
     it 'returns unathorized status' do
       expect(response.status).to eq 401
+      expect(response.body).to eq("") # not expicit here to avoid hacking
     end
   end
 
@@ -54,6 +56,7 @@ RSpec.describe LoginsController, type: :request do
 
     it 'returns unathorized status' do
       expect(response.status).to eq 401
+      expect(response.body).to eq("") # not expicit here to avoid hacking
     end
   end
 end

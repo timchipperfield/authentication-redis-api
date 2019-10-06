@@ -28,11 +28,12 @@ RSpec.describe AuthorizationsController, type: :request do
     end
 
     context "when the token is invalid" do
-      let(:access_token) { "Bearer #{"fake1234"}" }
+      let(:access_token) { "Bearer #{"eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NzA0MDYwMjUsInVzZXJuYW1lIjoiyhotY2hpcHBlcmZpZWxkIiwidWlkIjoiZGQxMDkzNmEtNjZhZC00NmVjLWI3NTEtZjEwYjY2N2Y4YTcwIiwiZXhwIjoxNTcwNDAyNDI1LCJydWlkIjoiYmY2ZTk4ZGQtZDI3NC00ZTBlLTk2OTAtMmUzZGU0NzJhYmM2In0.Kq5JMkE_AgJ2VFxE4eJoVNhnq7Wt5xhwBdQ25d__aaN"}" }
 
       it "returns 401" do
         post url, headers: { JWTSessions.access_header => access_token }
         expect(response.status).to eq(401)
+        expect(JSON.parse(response.body)["error"]).to eq("Signature verification raised")
       end
     end
 
@@ -42,6 +43,7 @@ RSpec.describe AuthorizationsController, type: :request do
       it "returns 401" do
         post url, headers: { JWTSessions.access_header => access_token }
         expect(response.status).to eq(401)
+        expect(JSON.parse(response.body)["error"]).to eq("Signature has expired")
       end
     end
 
@@ -49,6 +51,7 @@ RSpec.describe AuthorizationsController, type: :request do
       it "returns 401" do
         post url
         expect(response.status).to eq(401)
+        expect(JSON.parse(response.body)["error"]).to eq("Token is not found")
       end
     end
   end

@@ -15,6 +15,10 @@ class User
     redis.set(username, hashed_password)
   end
 
+  def self.user_exists?(username)
+    redis.get(username).present?
+  end
+
   private
 
   class << self
